@@ -9,7 +9,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 # for hugging face space authentication to upload files
 from huggingface_hub import login, HfApi
-from google.colab import userdata
 
 #For Enable debug logging
 from huggingface_hub.utils import logging
@@ -21,7 +20,7 @@ repo_type = "dataset"
 
 # Define constants for the dataset and output paths
 api = HfApi(token=os.getenv("HF_TOURISM"))
-#api = HfApi(token=userdata.get('HF_TOURISM'))
+
 DATASET_PATH = "hf://datasets/Chandrashekhara/tourism-project/tourism.csv"
 df = pd.read_csv(DATASET_PATH)
 print("Dataset loaded successfully.")
