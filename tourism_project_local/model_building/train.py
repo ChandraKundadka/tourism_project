@@ -15,6 +15,9 @@ import os
 from huggingface_hub import login, HfApi, create_repo
 from huggingface_hub.utils import RepositoryNotFoundError, HfHubHTTPError
 
+#For experiment tracking  
+import mlflow
+
 from google.colab import userdata
 #For Enable debug logging
 from huggingface_hub.utils import logging
@@ -44,7 +47,7 @@ Xtrain_path= "hf://datasets/Chandrashekhara/tourism-project/Xtrain.csv"
 Xtest_path= "hf://datasets/Chandrashekhara/tourism-project/Xtest.csv"
 ytrain_path= "hf://datasets/Chandrashekhara/tourism-project/ytrain.csv"
 ytest_path= "hf://datasets/Chandrashekhara/tourism-project/ytest.csv"
-  
+
 
 Xtrain = pd.read_csv(Xtrain_path)
 Xtest = pd.read_csv(Xtest_path)
@@ -52,10 +55,32 @@ ytrain = pd.read_csv(ytrain_path)
 ytest = pd.read_csv(ytest_path)
 
 
-# One-hot encode categorical and scale numeric features
-categorical_features = X.select_dtypes(include=['object','category']).columns
-numeric_features = X.select_dtypes(include='number').columns
- 
+# List of numerical features in the dataset
+numeric_features = [
+"Age",	                    #Age of the customer.
+"NumberOfPersonVisiting",	  #Total number of people accompanying the customer on the trip.
+"PreferredPropertyStar",	  #Preferred hotel rating by the customer.
+"NumberOfTrips",	          #Average number of trips the customer takes annually.
+"NumberOfChildrenVisiting",	#Number of children below age 5 accompanying the customer.
+"MonthlyIncome",	          #Gross monthly income of the customer.
+"PitchSatisfactionScore",	  #Score indicating the customer's satisfaction with the sales pitch.
+"NumberOfFollowups",	      #Total number of follow-ups by the salesperson after the sales pitch.
+"DurationOfPitch" 	        #Duration of the sales pitch delivered to the customer.
+]
+
+# List of categorical features in the dataset
+categorical_features = [
+"TypeofContact",	  #The method by which the customer was contacted (Company Invited or Self Inquiry).
+"Occupation",   		#Customer's occupation (e.g., Salaried, Freelancer).
+"Gender",		        #Gender of the customer (Male, Female).
+"ProductPitched",		#The type of product pitched to the customer.
+"MaritalStatus",		#Marital status of the customer (Single, Married, Divorced).
+"Designation", 		  #Customer's designation in their current organization.
+"CityTier",	                #The city category based on development, population, and living standards (Tier 1 > Tier 2 > Tier 3).
+"Passport",	                #Whether the customer holds a valid passport (0: No, 1: Yes).
+"OwnCar" 	                  #Whether the customer owns a car (0: No, 1: Yes).
+]
+
 print(f"numeric_features: {numeric_features}")
 print(f"categorical_features: {categorical_features}")
 
@@ -63,6 +88,7 @@ print(f"categorical_features: {categorical_features}")
 class_weight = ytrain.value_counts()[0] / ytrain.value_counts()[1]
 
 # Preprocessing pipeline
+# One-hot encode categorical and scale numeric features
 preprocessor = make_column_transformer(
     (StandardScaler(), numeric_features),
     (OneHotEncoder(handle_unknown='ignore'), categorical_features)

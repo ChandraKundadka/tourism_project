@@ -20,8 +20,8 @@ repo_id = "Chandrashekhara/tourism-project"
 repo_type = "dataset"
 
 # Define constants for the dataset and output paths
-#api = HfApi(token=os.getenv("HF_TOURISM"))
-api = HfApi(token=userdata.get('HF_TOURISM'))
+api = HfApi(token=os.getenv("HF_TOURISM"))
+#api = HfApi(token=userdata.get('HF_TOURISM'))
 DATASET_PATH = "hf://datasets/Chandrashekhara/tourism-project/tourism.csv"
 df = pd.read_csv(DATASET_PATH)
 print("Dataset loaded successfully.")
@@ -32,12 +32,12 @@ df.drop(columns=['CustomerID'], inplace=True)
 #Gender column contains "Fe Male". Replace the value with "Female"
 df["Gender"] = df["Gender"].replace("Fe Male", "Female")
 
-#MaritalStatus contains values Unmarried and Single. Lets Change all Unmarried to Single 
+#MaritalStatus contains values Unmarried and Single. Lets Change all Unmarried to Single
 df["MaritalStatus"] = df["MaritalStatus"].replace("Unmarried", "Single")
 
 # checking for duplicate values
 print(f"Duplicate values:\n{df.duplicated().sum()}")
- 
+
 #These columns are categorical in nature but they defined as integer. Change the type to catorical.
 categorical_columns = ["CityTier", "Passport", "ProdTaken","OwnCar"]
 df[categorical_columns] = df[categorical_columns].astype("category")
@@ -55,7 +55,7 @@ numeric_features = [
 "PitchSatisfactionScore",	  #Score indicating the customer's satisfaction with the sales pitch.
 "NumberOfFollowups",	      #Total number of follow-ups by the salesperson after the sales pitch.
 "DurationOfPitch" 	        #Duration of the sales pitch delivered to the customer.
-]           
+]
 
 # List of categorical features in the dataset
 categorical_features = [

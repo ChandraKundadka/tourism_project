@@ -8,9 +8,9 @@ repo_id = "Chandrashekhara/tourism-project"
 repo_type = "dataset"
 
 # Initialize API client
-#api = HfApi(token=os.getenv("HF_TOURISM"))
-api = HfApi(token=userdata.get('HF_TOURISM'))
- 
+api = HfApi(token=os.getenv("HF_TOURISM"))
+#api = HfApi(token=userdata.get('HF_TOURISM'))
+
 # Step 1: Check if the space exists
 try:
     api.repo_info(repo_id=repo_id, repo_type=repo_type)
@@ -21,7 +21,7 @@ except RepositoryNotFoundError:
     print(f"Space '{repo_id}' created.")
 
 api.upload_folder(
-    folder_path="tourism_project/data",
+    folder_path="tourism_project_local/data",
     repo_id=repo_id,
     repo_type=repo_type,
 )

@@ -48,7 +48,7 @@ Designation     = st.selectbox("Designation",options=["AVP", "Executive", "Manag
 # -------------------------------
 input_data = pd.DataFrame([{
     "Age": Age,
-    "TypeofContact": typeofcontact,
+    "TypeofContact": TypeofContact,
     "CityTier": CityTier,
     "DurationOfPitch": DurationOfPitch,
     "Occupation": Occupation,
@@ -64,8 +64,8 @@ input_data = pd.DataFrame([{
     "OwnCar": OwnCar,
     "NumberOfChildrenVisiting": NumberOfChildrenVisiting,
     "Designation": Designation,
-    "MonthlyIncome": monthly_income 
-  
+    "MonthlyIncome": MonthlyIncome
+
 }])
 
 # Set the classification threshold
