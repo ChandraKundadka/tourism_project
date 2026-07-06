@@ -3,6 +3,7 @@ from huggingface_hub import HfApi, create_repo
 from google.colab import userdata
 import os
 
+print("Starting Data Register")
 
 repo_id = "Chandrashekhara/tourism-project"
 repo_type = "dataset"
@@ -25,3 +26,5 @@ api.upload_folder(
     repo_id=repo_id,
     repo_type=repo_type,
 )
+
+print("End of Data Register")
