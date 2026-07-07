@@ -20,14 +20,20 @@ import mlflow
  
  #For Enable debug logging
 from huggingface_hub.utils import logging
+
+print('=======================================================================')
+print('===================Starting Train======================================')
+print('=======================================================================')
+
+
 logging.set_verbosity_debug()
 
 mlflow.set_tracking_uri("http://localhost:5000")
 mlflow.set_experiment("mlops-training-experiment")
 
-api = HfApi()
-print(api)
-#api = HfApi(token=os.getenv("HF_TOURISM"))
+#api = HfApi()
+#print(api)
+api = HfApi(token=os.getenv("HF_TOURISM"))
 
 # Define repo_id and repo_type explicitly in this script
 repo_id = "Chandrashekhara/tourism-project"
@@ -178,7 +184,8 @@ with mlflow.start_run():
     repo_id = "Chandrashekhara/tourism-project"
     repo_type = "model"
 
-    #api = HfApi(token=os.getenv("HF_TOKEN"))
+
+    api = HfApi(token=os.getenv("HF_TOKEN"))
 
     # Step 1: Check if the space exists
     try:
@@ -196,3 +203,8 @@ with mlflow.start_run():
         repo_id=repo_id,
         repo_type=repo_type,
     )
+
+print('=======================================================================')
+print('===================Completing Train======================================')
+print('=======================================================================')
+
