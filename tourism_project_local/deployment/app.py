@@ -5,7 +5,7 @@ import joblib
 
 # Download the model from the Model Hub
 
-repo_id = "Chandrashekhara/tourism-project"
+repo_id = "Chandrashekhara/tourism-project-model"
 model_path = hf_hub_download(repo_id=repo_id, filename="best_tourism_model_v1.joblib")
 
 # Load the model
