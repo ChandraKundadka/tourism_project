@@ -181,7 +181,7 @@ with mlflow.start_run():
     print(f"Model saved as artifact at: {model_path}")
 
     # Upload to Hugging Face
-    repo_id = "Chandrashekhara/tourism-project"
+    repo_id = "Chandrashekhara/tourism-project-model"
     repo_type = "model"
 
 
@@ -189,20 +189,27 @@ with mlflow.start_run():
 
     # Step 1: Check if the space exists
     try:
-        api.repo_info(repo_id=repo_id, repo_type=repo_type)
-        print(f"Space '{repo_id}' already exists. Using it.")
+      api.repo_info(repo_id=repo_id, repo_type=repo_type)
+      print(f"Repository '{repo_id}' already exists.")
     except RepositoryNotFoundError:
-        print(f"Space '{repo_id}' not found. Creating new space...")
-        create_repo(repo_id=repo_id, repo_type=repo_type, private=False)
-        print(f"Space '{repo_id}' created.")
+       # Step 2: Create if the space not exists
+      try:
+          create_repo(
+              repo_id=repo_id,
+              repo_type=repo_type,
+              private=False
+          )
+          print("Repository created successfully.")
+      except Exception as e:
+          print(f"Error creating repository: {e}")
 
-    # create_repo("churn-model", repo_type="model", private=False)
     api.upload_file(
         path_or_fileobj="best_tourism_model_v1.joblib",
         path_in_repo="best_tourism_model_v1.joblib",
         repo_id=repo_id,
         repo_type=repo_type,
     )
+    print("Model uploaded successfully!")
 
 print('=======================================================================')
 print('===================Completing Train======================================')
