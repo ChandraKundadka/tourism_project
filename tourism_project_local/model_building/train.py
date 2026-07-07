@@ -18,9 +18,12 @@ from huggingface_hub.utils import RepositoryNotFoundError, HfHubHTTPError
 #For experiment tracking
 import mlflow
  
-#For Enable debug logging
+ #For Enable debug logging
 from huggingface_hub.utils import logging
 logging.set_verbosity_debug()
+
+mlflow.set_tracking_uri("http://localhost:5000")
+mlflow.set_experiment("mlops-training-experiment")
 
 api = HfApi()
 print(api)
@@ -175,7 +178,7 @@ with mlflow.start_run():
     repo_id = "Chandrashekhara/tourism-project"
     repo_type = "model"
 
-    api = HfApi(token=os.getenv("HF_TOKEN"))
+    #api = HfApi(token=os.getenv("HF_TOKEN"))
 
     # Step 1: Check if the space exists
     try:
