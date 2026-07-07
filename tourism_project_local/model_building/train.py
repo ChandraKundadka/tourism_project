@@ -199,10 +199,12 @@ with mlflow.start_run():
       print(f"Repository '{repo_id}' already exists.")
     except RepositoryNotFoundError:
        # Step 2: Create if the space not exists
+      print("Going to Create Repository "{repo_id}}" repo_type=" {repo_type})
       try:
           create_repo(
               repo_id=repo_id,
               repo_type=repo_type,
+              token=token,
               private=False
           )
           print("Repository created successfully.")
