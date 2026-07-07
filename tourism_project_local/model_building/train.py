@@ -184,8 +184,14 @@ with mlflow.start_run():
     repo_id = "Chandrashekhara/tourism-project-model"
     repo_type = "model"
 
+    token = os.getenv("HF_TOKEN")
+    if token is None:
+        raise ValueError("HF_TOKEN is not set!")
 
-    api = HfApi(token=os.getenv("HF_TOKEN"))
+    print("Token found:", token[:8] + "...")
+
+    #api = HfApi(token=os.getenv("HF_TOKEN"))
+    api = HfApi(token=token)
 
     # Step 1: Check if the space exists
     try:
