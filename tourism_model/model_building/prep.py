@@ -10,12 +10,14 @@ from sklearn.preprocessing import LabelEncoder
 # for hugging face space authentication to upload files
 from huggingface_hub import login, HfApi
 
-#For Enable debug logging (Only required while debugging)
-#from huggingface_hub.utils import logging
-#logging.set_verbosity_debug()
+#For Enable debug logging  
+from huggingface_hub.utils import logging
+logging.set_verbosity_debug()
+
+print("Starting data Preparation.")
 
 #Repository id
-repo_id = "Chandrashekhara/tourism-project"
+repo_id = "Chandrashekhara/tourism-project"  #Repo ID in Hugging Face
 repo_type = "dataset"  #Repository Type
 
 # Define constants for the dataset and output paths
@@ -42,33 +44,6 @@ categorical_columns = ["CityTier", "Passport", "ProdTaken","OwnCar"]
 df[categorical_columns] = df[categorical_columns].astype("category")
 
 target_col = 'ProdTaken'
-
-# List of numerical features in the dataset
-numeric_features = [
-"Age",	                    #Age of the customer.
-"NumberOfPersonVisiting",	  #Total number of people accompanying the customer on the trip.
-"PreferredPropertyStar",	  #Preferred hotel rating by the customer.
-"NumberOfTrips",	          #Average number of trips the customer takes annually.
-"NumberOfChildrenVisiting",	#Number of children below age 5 accompanying the customer.
-"MonthlyIncome",	          #Gross monthly income of the customer.
-"PitchSatisfactionScore",	  #Score indicating the customer's satisfaction with the sales pitch.
-"NumberOfFollowups",	      #Total number of follow-ups by the salesperson after the sales pitch.
-"DurationOfPitch" 	        #Duration of the sales pitch delivered to the customer.
-]
-
-# List of categorical features in the dataset
-categorical_features = [
-"TypeofContact",	  #The method by which the customer was contacted (Company Invited or Self Inquiry).
-"Occupation",   		#Customer's occupation (e.g., Salaried, Freelancer).
-"Gender",		        #Gender of the customer (Male, Female).
-"ProductPitched",		#The type of product pitched to the customer.
-"MaritalStatus",		#Marital status of the customer (Single, Married, Divorced).
-"Designation" 		  #Customer's designation in their current organization.
-"CityTier",	                #The city category based on development, population, and living standards (Tier 1 > Tier 2 > Tier 3).
-"Passport",	                #Whether the customer holds a valid passport (0: No, 1: Yes).
-"OwnCar" 	                  #Whether the customer owns a car (0: No, 1: Yes).
-]
-
 
 # Split into X (features) and y (target)
 X = df.drop(columns=[target_col])
@@ -115,3 +90,6 @@ files = api.list_repo_files(
 )
 
 print(files)
+
+
+print("End of data Preparation.")

@@ -15,6 +15,10 @@ import os
 from huggingface_hub import login, HfApi, create_repo
 from huggingface_hub.utils import RepositoryNotFoundError, HfHubHTTPError
 
+# For dispplaying debug information
+from huggingface_hub.utils import logging
+logging.set_verbosity_debug()
+
 #For experiment tracking
 import mlflow
 
@@ -113,13 +117,6 @@ param_grid = {
     'xgbclassifier__reg_lambda': [0.4, 0.5, 0.6],
 }
 
-# Create pipeline
-model_pipeline = make_pipeline(preprocessor, xgb_model)
-
-# Grid search with cross-validation
-grid_search = GridSearchCV(model_pipeline, param_grid, cv=5, scoring='recall', n_jobs=-1)
-grid_search.fit(Xtrain, ytrain)
-
 
 # Model pipeline
 model_pipeline = make_pipeline(preprocessor, xgb_model)
@@ -127,7 +124,7 @@ model_pipeline = make_pipeline(preprocessor, xgb_model)
 # Start MLflow run
 with mlflow.start_run():
     # Hyperparameter tuning
-    grid_search = GridSearchCV(model_pipeline, param_grid, cv=5, n_jobs=-1)
+    grid_search = GridSearchCV(model_pipeline, param_grid, scoring='recall', cv=5, n_jobs=-1)
     grid_search.fit(Xtrain, ytrain)
 
     # Log all parameter combinations and their mean test scores
@@ -217,9 +214,8 @@ with mlflow.start_run():
         repo_id=repo_id,
         repo_type=repo_type,
     )
-    print("Model uploaded successfully!")
+    print(f"Model uploaded successfully to '{repo_id}'!")
 
 print("=" * 70)
 print("Finishing train.py".center(70))
 print("=" * 70)
-

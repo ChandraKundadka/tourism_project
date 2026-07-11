@@ -3,7 +3,7 @@ from huggingface_hub import HfApi, create_repo
 import os
 from pathlib import Path
 
-print("End of Data Register")
+print("Starting the Data Register")
 
 repo_id = "Chandrashekhara/tourism-project"
 repo_type = "dataset"
